@@ -10,8 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\__SHARED\AssemblyInfo.Internal.g.cs" />
-    <Compile Include="..\__SHARED\AssemblyInfo.Internal.Attributes.cs" />
+    <Compile Visible="false" Include="..\__SHARED\AssemblyInfo.Internal.g.cs" />
+    <Compile Visible="false" Include="..\__SHARED\AssemblyInfo.Internal.Attributes.cs" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">

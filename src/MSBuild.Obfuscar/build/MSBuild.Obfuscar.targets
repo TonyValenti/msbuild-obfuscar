@@ -29,47 +29,47 @@ WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and
   <PropertyGroup>
 
     <!-- Obfuscator command -->
-    <ObfuscatorExePath Condition=" '$(ObfuscatorExePath)' == '' ">$(ObfuscatorToolsPath)\Obfuscar.Console.exe</ObfuscatorExePath>
+    <Obfuscator_Path Condition=" '$(Obfuscator_Path)' == '' ">$(ObfuscatorToolsPath)\Obfuscar.Console.exe</Obfuscator_Path>
 
-    <ObfuscatorCommand Condition=" '$(OS)' == 'Windows_NT'">"$(ObfuscatorExePath)"</ObfuscatorCommand>
-    <ObfuscatorCommand Condition=" '$(OS)' != 'Windows_NT' ">mono "$(ObfuscatorExePath)"</ObfuscatorCommand>
+    <ObfuscatorCommand Condition=" '$(OS)' == 'Windows_NT'">"$(Obfuscator_Path)"</ObfuscatorCommand>
+    <ObfuscatorCommand Condition=" '$(OS)' != 'Windows_NT' ">mono "$(Obfuscator_Path)"</ObfuscatorCommand>
 
     <!-- PaddedSolutionDir -->
     <PaddedSolutionDir Condition=" '$(OS)' == 'Windows_NT'">"$(SolutionDir) "</PaddedSolutionDir>
     <PaddedSolutionDir Condition=" '$(OS)' != 'Windows_NT' ">"$(SolutionDir)"</PaddedSolutionDir>
 
-    <!-- ObfuscatorConfigTemplate -->
-    <ObfuscatorConfigTemplate Condition=" '$(OS)' == 'Windows_NT' AND !Exists('$(ObfuscatorConfigTemplate)')">$([System.IO.Path]::Combine($(ProjectDir), "$(ProjectName).xml"))</ObfuscatorConfigTemplate>
-    <ObfuscatorConfigTemplate Condition=" '$(OS)' == 'Windows_NT' AND !Exists('$(ObfuscatorConfigTemplate)')">$([System.IO.Path]::Combine($(ProjectDir), "Obfuscar.xml"))</ObfuscatorConfigTemplate>
-    <ObfuscatorConfigTemplate Condition=" '$(OS)' == 'Windows_NT' AND !Exists('$(ObfuscatorConfigTemplate)')">$([System.IO.Path]::Combine($(SolutionDir), "Obfuscar.xml"))</ObfuscatorConfigTemplate>
+    <!-- Obfuscator_ConfigTemplate -->
+    <Obfuscator_ConfigTemplate Condition=" '$(OS)' == 'Windows_NT' AND !Exists('$(Obfuscator_ConfigTemplate)')">$([System.IO.Path]::Combine($(ProjectDir), "$(ProjectName).xml"))</Obfuscator_ConfigTemplate>
+    <Obfuscator_ConfigTemplate Condition=" '$(OS)' == 'Windows_NT' AND !Exists('$(Obfuscator_ConfigTemplate)')">$([System.IO.Path]::Combine($(ProjectDir), "Obfuscar.xml"))</Obfuscator_ConfigTemplate>
+    <Obfuscator_ConfigTemplate Condition=" '$(OS)' == 'Windows_NT' AND !Exists('$(Obfuscator_ConfigTemplate)')">$([System.IO.Path]::Combine($(SolutionDir), "Obfuscar.xml"))</Obfuscator_ConfigTemplate>
 
-    <ObfuscatorConfigTemplate Condition=" '$(OS)' != 'Windows_NT' AND !Exists('$(ObfuscatorConfigTemplate)')">$(ProjectDir)$(ProjectName).xml</ObfuscatorConfigTemplate>
-    <ObfuscatorConfigTemplate Condition=" '$(OS)' != 'Windows_NT' AND !Exists('$(ObfuscatorConfigTemplate)')">$(ProjectDir)Obfuscar.xml</ObfuscatorConfigTemplate>
-    <ObfuscatorConfigTemplate Condition=" '$(OS)' != 'Windows_NT' AND !Exists('$(ObfuscatorConfigTemplate)')">$(SolutionDir)Obfuscar.xml</ObfuscatorConfigTemplate>
+    <Obfuscator_ConfigTemplate Condition=" '$(OS)' != 'Windows_NT' AND !Exists('$(Obfuscator_ConfigTemplate)')">$(ProjectDir)$(ProjectName).xml</Obfuscator_ConfigTemplate>
+    <Obfuscator_ConfigTemplate Condition=" '$(OS)' != 'Windows_NT' AND !Exists('$(Obfuscator_ConfigTemplate)')">$(ProjectDir)Obfuscar.xml</Obfuscator_ConfigTemplate>
+    <Obfuscator_ConfigTemplate Condition=" '$(OS)' != 'Windows_NT' AND !Exists('$(Obfuscator_ConfigTemplate)')">$(SolutionDir)Obfuscar.xml</Obfuscator_ConfigTemplate>
 
-    <ObfuscatorExePath Condition=" '$(ObfuscatorExePath)' == '' ">$(ObfuscatorToolsPath)\Obfuscar.Console.exe</ObfuscatorExePath>
+    <Obfuscator_Path Condition=" '$(Obfuscator_Path)' == '' ">$(ObfuscatorToolsPath)\Obfuscar.Console.exe</Obfuscator_Path>
 
     <ObfuscatorRunInRelease Condition=" '$(ObfuscatorRunInRelease)' == '' ">true</ObfuscatorRunInRelease>
     <ObfuscatorRunInDebug Condition=" '$(ObfuscatorRunInDebug)' == '' ">true</ObfuscatorRunInDebug>
 
-    <ObfuscatorConfigTemplate_ProjectReferences_Append Condition=" '$(ObfuscatorConfigTemplate_ProjectReferences_Append)' == '' ">true</ObfuscatorConfigTemplate_ProjectReferences_Append>
+    <Obfuscator_ConfigTemplate_ProjectReferences_Append Condition=" '$(Obfuscator_ConfigTemplate_ProjectReferences_Append)' == '' ">true</Obfuscator_ConfigTemplate_ProjectReferences_Append>
     
     <!-- Commands -->
-    <ObfuscateCommand>$(ObfuscatorCommand) "$(ObfuscatorConfigTemplate)"</ObfuscateCommand>
+    <ObfuscateCommand>$(ObfuscatorCommand) "$(Obfuscator_ConfigTemplate)"</ObfuscateCommand>
   
 </PropertyGroup>
 
   <Target Name="CheckPrerequisites">
     <!-- Raise an error if we're unable to locate Obfuscator.cli.exe  -->
-    <Error Condition="'$(DownloadObfuscatorExe)' != 'true' AND !Exists('$(ObfuscatorExePath)')" Text="Unable to locate '$(ObfuscatorExePath)'" />
+    <Error Condition="'$(DownloadObfuscatorExe)' != 'true' AND !Exists('$(Obfuscator_Path)')" Text="Unable to locate '$(Obfuscator_Path)'" />
   </Target>
 
   <Target Name="Obfuscate" DependsOnTargets="CheckPrerequisites">
 
     <Obfuscate 
-      Obfuscator="$(ObfuscatorExePath)" 
-      ObfuscatorConfigTemplate="$(ObfuscatorConfigTemplate)"
-      ObfuscatorConfigTemplate_ProjectReferences_Append="$(ObfuscatorConfigTemplate_ProjectReferences_Append)"
+      Obfuscator_Path="$(Obfuscator_Path)" 
+      Obfuscator_ConfigTemplate="$(Obfuscator_ConfigTemplate)"
+      Obfuscator_ConfigTemplate_ProjectReferences_Append="$(Obfuscator_ConfigTemplate_ProjectReferences_Append)"
       
       SolutionDir="$(SolutionDir)" 
       SolutionFileName="$(SolutionFileName)" 
@@ -85,6 +85,7 @@ WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and
       
       ProjectReferences="@(ReferencePathWithRefAssemblies)"
       
+      Diagnostics_TempFolder_Delete="true"
       
       />
   </Target>

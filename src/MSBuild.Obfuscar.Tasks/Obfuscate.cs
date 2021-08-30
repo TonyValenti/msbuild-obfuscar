@@ -5,15 +5,16 @@ using MSBuild.Obfuscar;
 using System;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks.Dataflow;
 
 namespace MSBuild.Obfuscar.Tasks {
 
     public class Obfuscate : Microsoft.Build.Utilities.Task {
 
-        public string Obfuscator { get; set; } = string.Empty;
-        public string ObfuscatorConfigTemplate { get; set; } = string.Empty;
-        public bool ObfuscatorConfigTemplate_ProjectReferences_Append { get; set; } = true;
+        public string Obfuscator_Path { get; set; } = string.Empty;
+        public string Obfuscator_ConfigTemplate { get; set; } = string.Empty;
+        public bool Obfuscator_ConfigTemplate_ProjectReferences_Append { get; set; } = true;
 
         public string SolutionDir { get; set; } = string.Empty;
         public string SolutionFileName { get; set; } = string.Empty;
@@ -29,8 +30,8 @@ namespace MSBuild.Obfuscar.Tasks {
         public string TargetFileName { get; set; } = string.Empty;
         public string TargetName { get; set; } = string.Empty;
 
-        
-        
+        public bool Diagnostics_TempFolder_Delete { get; set; } = true;
+
 
         public override bool Execute() {
 
@@ -38,8 +39,8 @@ namespace MSBuild.Obfuscar.Tasks {
 
             Log.LogMessage(MessageImportance.High, $@"Obfuscate - v{InternalAssemblyInfo.AssemblyVersion} @ {InternalAssemblyInfo.AssemblyBuildDate}");
             Log.LogMessage(MessageImportance.High, $@"-----------");
-            Log.LogMessage(MessageImportance.High, $@"Obfuscator               = {Args.Obfuscator}");
-            Log.LogMessage(MessageImportance.High, $@"ObfuscatorConfigTemplate = {Args.ObfuscatorConfigTemplate}");
+            Log.LogMessage(MessageImportance.High, $@"Obfuscator               = {Args.Obfuscator_Path}");
+            Log.LogMessage(MessageImportance.High, $@"ObfuscatorConfigTemplate = {Args.Obfuscator_ConfigTemplate}");
             Log.LogMessage(MessageImportance.High, $@"ProjectDir               = {Args.ProjectDir}");
             Log.LogMessage(MessageImportance.High, $@"TargetDir                = {Args.TargetDir}");
             Log.LogMessage(MessageImportance.High, $@"TargetFileName           = {Args.TargetFileName}");
@@ -47,11 +48,11 @@ namespace MSBuild.Obfuscar.Tasks {
 
 
             var ConfigTemplate = Resources.Defaults.ResourcePackage.Obfuscar;
-            if (System.IO.File.Exists(ObfuscatorConfigTemplate)) {
-                ConfigTemplate = System.IO.File.ReadAllText(ObfuscatorConfigTemplate)
+            if (System.IO.File.Exists(Obfuscator_ConfigTemplate)) {
+                ConfigTemplate = System.IO.File.ReadAllText(Obfuscator_ConfigTemplate)
                 ;
             } else {
-                Log.LogMessage(MessageImportance.High, $@"Path to {ObfuscateArgNames.Default.ObfuscatorConfigTemplate} does not exist.  Using a default template.");
+                Log.LogMessage(MessageImportance.High, $@"Path to {ObfuscateArgNames.Default.Obfuscator_ConfigTemplate} does not exist.  Using a default template.");
             }
 
             var Config = ConfigTemplate.Replace(Args);
@@ -71,16 +72,16 @@ namespace MSBuild.Obfuscar.Tasks {
             System.IO.File.WriteAllText(Args.OutPathConfig, Config);
 
             var ExecObfuscatorTask = new Exec() {
-                Command = $@"""{Args.Obfuscator}"" ""{Args.OutPathConfig}""",
+                Command = $@"""{Args.Obfuscator_Path}"" ""{Args.OutPathConfig}""",
             }.Initialize(this);
             var ExecObfuscatorResult = ExecObfuscatorTask.Execute();
 
 
-            var FilesToMoveTask = new CreateItem() {
+            var FilesToCopyTask = new CreateItem() {
                 Include = $@"{Args.OutPath}\*.*".ToTaskList(),
             }.Initialize(this);
-            var FilesToMoveResult = FilesToMoveTask.Execute();
-            var FilesToMove = FilesToMoveTask.Include;
+            var FilesToCopyResult = FilesToCopyTask.Execute();
+            var FilesToCopy = FilesToCopyTask.Include;
 
 
             var MoveResult = false;
@@ -88,26 +89,36 @@ namespace MSBuild.Obfuscar.Tasks {
             var MoveAttemptsMax = 10;
 
             while (MoveResult == false && MoveAttempts < MoveAttemptsMax) {
+                MoveAttempts += 1;
 
-                var MoveTask = new Move() {
-                    SourceFiles = FilesToMove,
+                var MoveTask = new Copy() {
+                    SourceFiles = FilesToCopy,
                     DestinationFolder = Args.InPath.ToTaskItem(),
                     OverwriteReadOnlyFiles = true,
                 }.Initialize(this);
 
                 MoveResult |= MoveTask.Execute();
+
+                if (!MoveResult) {
+                    Thread.Sleep(1000);
+                }
+
             }
 
-
-            var DeleteDirectoryTask = new RemoveDir() {
-                Directories = Args.OutPath.ToTaskList()
-            }.Initialize(this);
-            var DeleteDirectoryResult = DeleteDirectoryTask.Execute();
+            bool DeleteDirectoryResult;
+            if (!this.Diagnostics_TempFolder_Delete) {
+                DeleteDirectoryResult = true;
+            } else {
+                var DeleteDirectoryTask = new RemoveDir() {
+                    Directories = Args.OutPath.ToTaskList(),
+                }.Initialize(this);
+                DeleteDirectoryResult = DeleteDirectoryTask.Execute();
+            }
 
             var ret = true
                 && CreateDirectoryResult
                 && ExecObfuscatorResult
-                && FilesToMoveResult
+                && FilesToCopyResult
                 && MoveResult
                 && DeleteDirectoryResult
                 ;

@@ -3,9 +3,9 @@
         public static ObfuscateArgNames Default { get; } = new();
 
         //These are intentially not implemented using nameof() because a refactor would not be future-proof
-        public string Obfuscator { get; } = "Obfuscator";
-        public string ObfuscatorConfigTemplate { get; } = "ObfuscatorConfigTemplate";
-        public string ObfuscatorConfigTemplate_ProjectReferences_Append { get; } = "ObfuscatorConfigTemplate_ProjectReferences_Append";
+        public string Obfuscator_Path { get; } = "Obfuscator_Path";
+        public string Obfuscator_ConfigTemplate { get; } = "Obfuscator_ConfigTemplate";
+        public string Obfuscator_ConfigTemplate_ProjectReferences_Append { get; } = "Obfuscator_ConfigTemplate_ProjectReferences_Append";
 
         public string SolutionDir { get; } = "SolutionDir";
         public string SolutionFileName { get; } = "SolutionFileName";

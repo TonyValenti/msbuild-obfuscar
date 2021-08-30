@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace MSBuild.Obfuscar.Tasks {
     internal partial class ObfuscateArgs {
-        public string Obfuscator { get; set; } = string.Empty;
-        public string ObfuscatorConfigTemplate { get; set; } = string.Empty;
-        public bool ObfuscatorConfigTemplate_ProjectReferences_Append { get; set; }
+        public string Obfuscator_Path { get; set; } = string.Empty;
+        public string Obfuscator_ConfigTemplate { get; set; } = string.Empty;
+        public bool Obfuscator_ConfigTemplate_ProjectReferences_Append { get; set; }
 
         public string SolutionDir { get; set; } = string.Empty;
         public string SolutionFileName { get; set; } = string.Empty;

@@ -28,7 +28,7 @@ namespace MSBuild.Obfuscar.Tasks {
                 ret = Regex.Replace(ret, Find, Replace, RegexOptions.IgnoreCase);
             }
 
-            if (Args.ObfuscatorConfigTemplate_ProjectReferences_Append) {
+            if (Args.Obfuscator_ConfigTemplate_ProjectReferences_Append) {
                 var Doc = XDocument.Parse(ret);
                 var Root = Doc.Root;
 
@@ -53,7 +53,10 @@ namespace MSBuild.Obfuscar.Tasks {
             var InPath = This.TargetDir;
             var Module = System.IO.Path.Combine(InPath, This.TargetFileName);
 
-            var RandomNumber = DateTime.Now.Ticks;
+            var ProcessId = System.Diagnostics.Process.GetCurrentProcess().Id;
+            var rnd = new Random(ProcessId ^ System.Environment.TickCount);
+
+            var RandomNumber = rnd.Next();
 
             var OutPath = System.IO.Path.Combine(This.TargetDir, $@"obfuscated_{RandomNumber}");
             var OutPathConfig = System.IO.Path.Combine(OutPath, $@"Obfuscar.g.xml");
@@ -66,7 +69,7 @@ namespace MSBuild.Obfuscar.Tasks {
                         ProjectReferencedFiles.Add(ItemName);
                     }
                 }
-                ProjectReferencedFiles = ProjectReferencedFiles.Distinct().ToList();
+                ProjectReferencedFiles = ProjectReferencedFiles.Distinct().OrderBy(x => x.ToLower()).ToList();
             }
 
             var ProjectReferencedFolders = new List<string>();
@@ -77,13 +80,13 @@ namespace MSBuild.Obfuscar.Tasks {
                         ProjectReferencedFolders.Add(ItemName);
                     }
                 }
-                ProjectReferencedFolders = ProjectReferencedFolders.Distinct().ToList();
+                ProjectReferencedFolders = ProjectReferencedFolders.Distinct().OrderBy(x => x.ToLower()).ToList();
             }
 
             var ret = new ObfuscateArgs() {
-                Obfuscator = This.Obfuscator,
-                ObfuscatorConfigTemplate = This.ObfuscatorConfigTemplate,
-                ObfuscatorConfigTemplate_ProjectReferences_Append = This.ObfuscatorConfigTemplate_ProjectReferences_Append,
+                Obfuscator_Path = This.Obfuscator_Path,
+                Obfuscator_ConfigTemplate = This.Obfuscator_ConfigTemplate,
+                Obfuscator_ConfigTemplate_ProjectReferences_Append = This.Obfuscator_ConfigTemplate_ProjectReferences_Append,
 
                 SolutionDir = This.SolutionDir,
                 SolutionFileName = This.SolutionFileName,
@@ -111,9 +114,9 @@ namespace MSBuild.Obfuscar.Tasks {
 
         public static IDictionary<string, string> GetExportableArgs(this ObfuscateArgs This) {
             var ret = new Dictionary<string, string>() {
-                {ObfuscateArgNames.Default.Obfuscator, This.Obfuscator },
-                {ObfuscateArgNames.Default.ObfuscatorConfigTemplate, This.ObfuscatorConfigTemplate},
-                {ObfuscateArgNames.Default.ObfuscatorConfigTemplate_ProjectReferences_Append, This.ObfuscatorConfigTemplate_ProjectReferences_Append.ToString()},
+                {ObfuscateArgNames.Default.Obfuscator_Path, This.Obfuscator_Path },
+                {ObfuscateArgNames.Default.Obfuscator_ConfigTemplate, This.Obfuscator_ConfigTemplate},
+                {ObfuscateArgNames.Default.Obfuscator_ConfigTemplate_ProjectReferences_Append, This.Obfuscator_ConfigTemplate_ProjectReferences_Append.ToString()},
 
                 {ObfuscateArgNames.Default.InPath, This.InPath },
                 {ObfuscateArgNames.Default.Module, This.Module },
