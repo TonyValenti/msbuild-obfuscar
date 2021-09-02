@@ -7,6 +7,12 @@ namespace MSBuild.Obfuscar.Tasks {
         public string Obfuscator_ConfigTemplate { get; set; } = string.Empty;
         public bool Obfuscator_ConfigTemplate_ProjectReferences_Append { get; set; }
 
+        public IReadOnlyCollection<string> Obfuscator_Configurations { get; set; } = Array.Empty<string>();
+
+
+        public string ConfigurationName { get; set; } = string.Empty;
+        
+
         public string SolutionDir { get; set; } = string.Empty;
         public string SolutionFileName { get; set; } = string.Empty;
         public string SolutionName { get; set; } = string.Empty;
@@ -14,8 +20,8 @@ namespace MSBuild.Obfuscar.Tasks {
         public string ProjectDir { get; set; } = string.Empty;
         public string ProjectFileName { get; set; } = string.Empty;
         public string ProjectName { get; set; } = string.Empty;
-        public IReadOnlyList<string> ProjectReferencedFiles { get; set; } = Array.Empty<string>();
-        public IReadOnlyList<string> ProjectReferencedFolders { get; set; } = Array.Empty<string>();
+        public IReadOnlyCollection<string> ProjectReferencedFiles { get; set; } = Array.Empty<string>();
+        public IReadOnlyCollection<string> ProjectReferencedFolders { get; set; } = Array.Empty<string>();
 
 
         public string TargetDir { get; set; } = string.Empty;

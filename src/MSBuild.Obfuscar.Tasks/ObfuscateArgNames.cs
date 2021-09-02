@@ -6,6 +6,9 @@
         public string Obfuscator_Path { get; } = "Obfuscator_Path";
         public string Obfuscator_ConfigTemplate { get; } = "Obfuscator_ConfigTemplate";
         public string Obfuscator_ConfigTemplate_ProjectReferences_Append { get; } = "Obfuscator_ConfigTemplate_ProjectReferences_Append";
+        public string Obfuscator_Configurations { get; } = "Obfuscator_Configurations";
+
+        public string ConfigurationName { get; } = "ConfigurationName";
 
         public string SolutionDir { get; } = "SolutionDir";
         public string SolutionFileName { get; } = "SolutionFileName";

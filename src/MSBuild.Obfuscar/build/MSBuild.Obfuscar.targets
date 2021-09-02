@@ -49,8 +49,6 @@ WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and
 
     <Obfuscator_Path Condition=" '$(Obfuscator_Path)' == '' ">$(ObfuscatorToolsPath)\Obfuscar.Console.exe</Obfuscator_Path>
 
-    <ObfuscatorRunInRelease Condition=" '$(ObfuscatorRunInRelease)' == '' ">true</ObfuscatorRunInRelease>
-    <ObfuscatorRunInDebug Condition=" '$(ObfuscatorRunInDebug)' == '' ">true</ObfuscatorRunInDebug>
 
     <Obfuscator_ConfigTemplate_ProjectReferences_Append Condition=" '$(Obfuscator_ConfigTemplate_ProjectReferences_Append)' == '' ">true</Obfuscator_ConfigTemplate_ProjectReferences_Append>
     
@@ -71,6 +69,10 @@ WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and
       Obfuscator_ConfigTemplate="$(Obfuscator_ConfigTemplate)"
       Obfuscator_ConfigTemplate_ProjectReferences_Append="$(Obfuscator_ConfigTemplate_ProjectReferences_Append)"
       
+      Obfuscator_Configurations="$(Obfuscator_Configurations)"
+      
+      ConfigurationName="$(ConfigurationName)" 
+      
       SolutionDir="$(SolutionDir)" 
       SolutionFileName="$(SolutionFileName)" 
       SolutionName="$(SolutionName)"
@@ -90,12 +92,9 @@ WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and
       />
   </Target>
 
-  <Target Name="Obfuscate_Debug" AfterTargets="AfterBuild" DependsOnTargets="Obfuscate" Condition="'$(ConfigurationName)' == 'Debug' AND $(ObfuscatorRunInDebug)">
+  <Target Name="Obfuscate_Targets" AfterTargets="AfterBuild" DependsOnTargets="Obfuscate">
 
   </Target>
 
-  <Target Name="Obfuscate_Release" AfterTargets="AfterBuild" DependsOnTargets="Obfuscate" Condition="'$(ConfigurationName)' == 'Release' AND $(ObfuscatorRunInRelease)">
-    
-  </Target>
 
 </Project>

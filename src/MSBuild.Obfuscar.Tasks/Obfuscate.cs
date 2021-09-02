@@ -16,6 +16,10 @@ namespace MSBuild.Obfuscar.Tasks {
         public string Obfuscator_ConfigTemplate { get; set; } = string.Empty;
         public bool Obfuscator_ConfigTemplate_ProjectReferences_Append { get; set; } = true;
 
+        public string Obfuscator_Configurations { get; set; } = string.Empty;
+
+        public string ConfigurationName { get; set; } = string.Empty;
+
         public string SolutionDir { get; set; } = string.Empty;
         public string SolutionFileName { get; set; } = string.Empty;
         public string SolutionName { get; set; } = string.Empty;
@@ -34,17 +38,23 @@ namespace MSBuild.Obfuscar.Tasks {
 
 
         public override bool Execute() {
+            var ret = true;
 
             var Args = this.GetArgs();
 
             Log.LogMessage(MessageImportance.High, $@"Obfuscate - v{InternalAssemblyInfo.AssemblyVersion} @ {InternalAssemblyInfo.AssemblyBuildDate}");
             Log.LogMessage(MessageImportance.High, $@"-----------");
-            Log.LogMessage(MessageImportance.High, $@"Obfuscator               = {Args.Obfuscator_Path}");
-            Log.LogMessage(MessageImportance.High, $@"ObfuscatorConfigTemplate = {Args.Obfuscator_ConfigTemplate}");
-            Log.LogMessage(MessageImportance.High, $@"ProjectDir               = {Args.ProjectDir}");
-            Log.LogMessage(MessageImportance.High, $@"TargetDir                = {Args.TargetDir}");
-            Log.LogMessage(MessageImportance.High, $@"TargetFileName           = {Args.TargetFileName}");
+            Log.LogMessage(MessageImportance.High, $@"Obfuscator                = {Args.Obfuscator_Path}");
+            Log.LogMessage(MessageImportance.High, $@"Obfuscator_ConfigTemplate = {Args.Obfuscator_ConfigTemplate}");
+            Log.LogMessage(MessageImportance.High, $@"ConfigurationName         = {Args.ConfigurationName}");
+            Log.LogMessage(MessageImportance.High, $@"ProjectDir                = {Args.ProjectDir}");
+            Log.LogMessage(MessageImportance.High, $@"TargetDir                 = {Args.TargetDir}");
+            Log.LogMessage(MessageImportance.High, $@"TargetFileName            = {Args.TargetFileName}");
 
+            if (!Args.Obfuscator_Configurations.Contains(Args.ConfigurationName)) {
+                Log.LogMessage(MessageImportance.High, $@"'{Args.ConfigurationName}' is not one of '{Args.Obfuscator_Configurations.JoinComma()}'.  Not Obfuscating.");
+                return ret;
+            }
 
 
             var ConfigTemplate = Resources.Defaults.ResourcePackage.Obfuscar;
@@ -115,7 +125,7 @@ namespace MSBuild.Obfuscar.Tasks {
                 DeleteDirectoryResult = DeleteDirectoryTask.Execute();
             }
 
-            var ret = true
+            ret = ret
                 && CreateDirectoryResult
                 && ExecObfuscatorResult
                 && FilesToCopyResult

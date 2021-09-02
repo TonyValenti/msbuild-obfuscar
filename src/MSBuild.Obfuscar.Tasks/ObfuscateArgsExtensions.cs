@@ -83,14 +83,51 @@ namespace MSBuild.Obfuscar.Tasks {
                 ProjectReferencedFolders = ProjectReferencedFolders.Distinct().OrderBy(x => x.ToLower()).ToList();
             }
 
+            var Obfuscator_Configurations = new[]{
+                This.Obfuscator_Configurations,
+                "Debug,Release",
+            }.WhereIsNotBlank().Coalesce();
+
+            var Obfuscator_ConfigTemplate = string.Empty;
+
+            var Obfuscator_ConfigTemplates = new List<string>();
+            {
+                var ConfigFileName1 = $@"Obfuscar.{Obfuscator_Configurations}.xml";
+                var ConfigFileName2 = $@"Obfuscar.xml";
+
+                Obfuscator_ConfigTemplates.Add(This.Obfuscator_ConfigTemplate);
+                Obfuscator_ConfigTemplates.Add(System.IO.Path.Combine(This.ProjectDir, This.Obfuscator_ConfigTemplate));
+                Obfuscator_ConfigTemplates.Add(System.IO.Path.Combine(This.SolutionDir, This.Obfuscator_ConfigTemplate));
+
+                Obfuscator_ConfigTemplates.Add(System.IO.Path.Combine(This.ProjectDir, ConfigFileName1));
+                Obfuscator_ConfigTemplates.Add(System.IO.Path.Combine(This.ProjectDir, ConfigFileName2));
+
+                Obfuscator_ConfigTemplates.Add(System.IO.Path.Combine(This.SolutionDir, ConfigFileName1));
+                Obfuscator_ConfigTemplates.Add(System.IO.Path.Combine(This.SolutionDir, ConfigFileName2));
+
+                foreach (var item in Obfuscator_ConfigTemplates) {
+                    if (System.IO.File.Exists(item)) {
+                        Obfuscator_ConfigTemplate = item;
+                        break;
+                    }
+                }
+
+            }
+
+
             var ret = new ObfuscateArgs() {
                 Obfuscator_Path = This.Obfuscator_Path,
                 Obfuscator_ConfigTemplate = This.Obfuscator_ConfigTemplate,
                 Obfuscator_ConfigTemplate_ProjectReferences_Append = This.Obfuscator_ConfigTemplate_ProjectReferences_Append,
 
+                Obfuscator_Configurations = Obfuscator_Configurations.SplitComma().ToHashSet(StringComparer.InvariantCultureIgnoreCase),
+
+
                 SolutionDir = This.SolutionDir,
                 SolutionFileName = This.SolutionFileName,
                 SolutionName = This.SolutionName,
+
+                ConfigurationName = This.ConfigurationName,
 
                 ProjectDir = This.ProjectDir,
                 ProjectFileName = This.ProjectFileName,
@@ -123,7 +160,9 @@ namespace MSBuild.Obfuscar.Tasks {
                 
                 {ObfuscateArgNames.Default.OutPath, This.OutPath },
                 {ObfuscateArgNames.Default.OutPathConfig, This.OutPathConfig },
-                
+
+                {ObfuscateArgNames.Default.ConfigurationName, This.ConfigurationName },
+
                 {ObfuscateArgNames.Default.SolutionDir, This.SolutionDir },
                 {ObfuscateArgNames.Default.SolutionFileName, This.SolutionFileName },
                 {ObfuscateArgNames.Default.SolutionName, This.SolutionName },
