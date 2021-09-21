@@ -3,15 +3,15 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>net5.0</TargetFramework>
-        <RootNamespace>MSBuild.Obfuscar.Example</RootNamespace>
-        <AssemblyName>MSBuild.Obfuscar.Example</AssemblyName>
+        <RootNamespace>Obfuscar.MsBuild.Example</RootNamespace>
+        <AssemblyName>Obfuscar.MsBuild.Example</AssemblyName>
         <LangVersion>default</LangVersion>
         <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="MSBuild.Obfuscar" Version="2.2.30">
+      <PackageReference Include="Obfuscar.MsBuild" Version="2.2.31">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>

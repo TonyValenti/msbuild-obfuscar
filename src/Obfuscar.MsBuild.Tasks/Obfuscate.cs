@@ -1,14 +1,14 @@
 ﻿using Microsoft.Build.Framework;
 using Microsoft.Build.Tasks;
 using Microsoft.Build.Utilities;
-using MSBuild.Obfuscar;
+using Obfuscar.MsBuild;
 using System;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks.Dataflow;
 
-namespace MSBuild.Obfuscar.Tasks {
+namespace Obfuscar.MsBuild.Tasks {
 
     public class Obfuscate : Microsoft.Build.Utilities.Task {
 
@@ -16,7 +16,7 @@ namespace MSBuild.Obfuscar.Tasks {
         public string Obfuscator_ConfigTemplate { get; set; } = string.Empty;
         public bool Obfuscator_ConfigTemplate_ProjectReferences_Append { get; set; } = true;
 
-        public string Obfuscator_Configurations { get; set; } = string.Empty;
+        public string Obfuscator_Targets { get; set; } = string.Empty;
 
         public string ConfigurationName { get; set; } = string.Empty;
 
@@ -51,8 +51,8 @@ namespace MSBuild.Obfuscar.Tasks {
             Log.LogMessage(MessageImportance.High, $@"TargetDir                 = {Args.TargetDir}");
             Log.LogMessage(MessageImportance.High, $@"TargetFileName            = {Args.TargetFileName}");
 
-            if (!Args.Obfuscator_Configurations.Contains(Args.ConfigurationName)) {
-                Log.LogMessage(MessageImportance.High, $@"'{Args.ConfigurationName}' is not one of '{Args.Obfuscator_Configurations.JoinComma()}'.  Not Obfuscating.");
+            if (!Args.Obfuscator_Targets.Contains(Args.ConfigurationName)) {
+                Log.LogMessage(MessageImportance.High, $@"'{Args.ConfigurationName}' is not one of '{Args.Obfuscator_Targets.JoinComma()}'.  Not Obfuscating.");
                 return ret;
             }
 

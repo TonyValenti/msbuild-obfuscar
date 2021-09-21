@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MSBuild.Obfuscar.Example
+namespace Obfuscar.MsBuild.Example
 {
     public class Program
     {

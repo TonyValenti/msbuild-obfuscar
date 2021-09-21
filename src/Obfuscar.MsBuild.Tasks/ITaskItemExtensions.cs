@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MSBuild.Obfuscar.Tasks {
+namespace Obfuscar.MsBuild.Tasks {
 
     internal static class ITaskItemExtensions {
         public static ITaskItem[] ToTaskList(this string This) {

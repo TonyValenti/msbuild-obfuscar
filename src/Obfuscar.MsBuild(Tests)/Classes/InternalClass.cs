@@ -1,4 +1,4 @@
-﻿namespace MSBuild.Obfuscar.Tests {
+﻿namespace Obfuscar.MsBuild.Tests {
     internal class InternalClass {
         public void DoTestInternal() {
             DoTestInternal1();

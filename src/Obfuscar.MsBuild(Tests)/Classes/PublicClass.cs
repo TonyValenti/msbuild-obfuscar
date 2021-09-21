@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MSBuild.Obfuscar.Tests {
+namespace Obfuscar.MsBuild.Tests {
     public class PublicClass {
         public void DoTest() {
             DoTestInternal();

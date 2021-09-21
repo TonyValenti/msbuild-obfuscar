@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
-namespace MSBuild.Obfuscar.Tasks {
+namespace Obfuscar.MsBuild.Tasks {
     internal static class ObfuscateArgsExtensions {
 
         private static string GetArgName(string Input) {
@@ -83,8 +83,8 @@ namespace MSBuild.Obfuscar.Tasks {
                 ProjectReferencedFolders = ProjectReferencedFolders.Distinct().OrderBy(x => x.ToLower()).ToList();
             }
 
-            var Obfuscator_Configurations = new[]{
-                This.Obfuscator_Configurations,
+            var Obfuscator_Targets = new[]{
+                This.Obfuscator_Targets,
                 "Debug,Release",
             }.WhereIsNotBlank().Coalesce();
 
@@ -92,7 +92,7 @@ namespace MSBuild.Obfuscar.Tasks {
 
             var Obfuscator_ConfigTemplates = new List<string>();
             {
-                var ConfigFileName1 = $@"Obfuscar.{Obfuscator_Configurations}.xml";
+                var ConfigFileName1 = $@"Obfuscar.{Obfuscator_Targets}.xml";
                 var ConfigFileName2 = $@"Obfuscar.xml";
 
                 Obfuscator_ConfigTemplates.Add(This.Obfuscator_ConfigTemplate);
@@ -120,7 +120,7 @@ namespace MSBuild.Obfuscar.Tasks {
                 Obfuscator_ConfigTemplate = This.Obfuscator_ConfigTemplate,
                 Obfuscator_ConfigTemplate_ProjectReferences_Append = This.Obfuscator_ConfigTemplate_ProjectReferences_Append,
 
-                Obfuscator_Configurations = Obfuscator_Configurations.SplitComma().ToHashSet(StringComparer.InvariantCultureIgnoreCase),
+                Obfuscator_Targets = Obfuscator_Targets.SplitComma().ToHashSet(StringComparer.InvariantCultureIgnoreCase),
 
 
                 SolutionDir = This.SolutionDir,

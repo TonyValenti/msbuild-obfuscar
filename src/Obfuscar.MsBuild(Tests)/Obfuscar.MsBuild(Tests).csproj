@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\Obfuscar.MsBuild\build\Obfuscar.MsBuild.Targets" />
+  
+  <PropertyGroup>
+    <TargetFramework>net50</TargetFramework>
+    <RootNamespace>Obfuscar.MsBuild.Tests</RootNamespace>
+</PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Obfuscar.MsBuild" Version="2.2.31" />
+  </ItemGroup>
+
+</Project>

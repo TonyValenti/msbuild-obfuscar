@@ -1,4 +1,4 @@
-﻿namespace MSBuild.Obfuscar.Tasks {
+﻿namespace Obfuscar.MsBuild.Tasks {
     internal class ObfuscateArgNames {
         public static ObfuscateArgNames Default { get; } = new();
 
@@ -6,7 +6,7 @@
         public string Obfuscator_Path { get; } = "Obfuscator_Path";
         public string Obfuscator_ConfigTemplate { get; } = "Obfuscator_ConfigTemplate";
         public string Obfuscator_ConfigTemplate_ProjectReferences_Append { get; } = "Obfuscator_ConfigTemplate_ProjectReferences_Append";
-        public string Obfuscator_Configurations { get; } = "Obfuscator_Configurations";
+        public string Obfuscator_Targets { get; } = "Obfuscator_Targets";
 
         public string ConfigurationName { get; } = "ConfigurationName";
 

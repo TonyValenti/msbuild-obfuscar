@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MSBuild.Obfuscar.Tasks.Resources.Defaults {
+namespace Obfuscar.MsBuild.Tasks.Resources.Defaults {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace MSBuild.Obfuscar.Tasks.Resources.Defaults {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MSBuild.Obfuscar.Tasks.Resources.Defaults.ResourcePackage", typeof(ResourcePackage).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Obfuscar.MsBuild.Tasks.Resources.Defaults.ResourcePackage", typeof(ResourcePackage).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -63,15 +63,19 @@ namespace MSBuild.Obfuscar.Tasks.Resources.Defaults {
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
         ///&lt;Obfuscator&gt;
+        ///  
         ///  &lt;!-- https://docs.obfuscar.com/getting-started/configuration.html --&gt;
-        ///  &lt;Var name=&quot;InPath&quot; value=&quot;$$INPATH$&quot; /&gt;
-        ///  &lt;Var name=&quot;OutPath&quot; value=&quot;$$OUTPATH$$&quot; /&gt;
-        ///  &lt;Var name=&quot;KeepPublicApi&quot; value=&quot;true&quot; /&gt;
-        ///  &lt;Var name=&quot;HidePrivateApi&quot; value=&quot;true&quot; /&gt;
-        ///  &lt;Var name=&quot;HideStrings&quot; value=&quot;true&quot; /&gt;
-        ///  &lt;Var name=&quot;UseUnicodeNames&quot; value=&quot;true&quot; /&gt;
-        ///  &lt;Module file=&quot;$$MODULE$$&quot; /&gt;
-        ///&lt;/Obfuscator&gt;.
+        ///  
+        ///  &lt;Var name=&quot;InPath&quot;                    value=&quot;{{InPath}}&quot; /&gt;
+        ///  &lt;Var name=&quot;OutPath&quot;                   value=&quot;{{OutPath}}&quot; /&gt;
+        ///                                        
+        ///  &lt;Var name=&quot;KeepPublicApi&quot;             value=&quot;true&quot;  /&gt;
+        ///  &lt;!--
+        ///  Turning this on will break assemblies that have [InternalsVisibleTo]
+        ///  --&gt;
+        ///  &lt;Var name=&quot;HidePrivateApi&quot;            value=&quot;true&quot; /&gt;
+        ///  
+        ///   [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Obfuscar {
             get {

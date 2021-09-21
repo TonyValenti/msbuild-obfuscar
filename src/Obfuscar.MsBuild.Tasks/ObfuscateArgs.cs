@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MSBuild.Obfuscar.Tasks {
+namespace Obfuscar.MsBuild.Tasks {
     internal partial class ObfuscateArgs {
         public string Obfuscator_Path { get; set; } = string.Empty;
         public string Obfuscator_ConfigTemplate { get; set; } = string.Empty;
         public bool Obfuscator_ConfigTemplate_ProjectReferences_Append { get; set; }
 
-        public IReadOnlyCollection<string> Obfuscator_Configurations { get; set; } = Array.Empty<string>();
+        public IReadOnlyCollection<string> Obfuscator_Targets { get; set; } = Array.Empty<string>();
 
 
         public string ConfigurationName { get; set; } = string.Empty;

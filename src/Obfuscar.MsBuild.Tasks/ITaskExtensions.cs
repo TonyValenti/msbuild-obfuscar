@@ -1,6 +1,6 @@
 ﻿using Microsoft.Build.Framework;
 
-namespace MSBuild.Obfuscar.Tasks {
+namespace Obfuscar.MsBuild.Tasks {
     internal static class ITaskExtensions {
         public static T Initialize<T>(this T This, ITask Source) where T : ITask {
             return This.Initialize(Source.BuildEngine, Source.HostObject);
