@@ -15,7 +15,7 @@ WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and
   
   <PropertyGroup>
     
-    <ObfuscatorToolsVersion>2.2.31</ObfuscatorToolsVersion>
+    <ObfuscatorToolsVersion>2.2.37</ObfuscatorToolsVersion>
 
     <!-- ObfuscatorToolsPath -->
     <ObfuscatorToolsPath Condition="'$(NuGetProjectStyle)' == 'PackageReference'">$(MSBuildThisFileDirectory)..\..\..\obfuscar\$(ObfuscatorToolsVersion)\tools</ObfuscatorToolsPath>
