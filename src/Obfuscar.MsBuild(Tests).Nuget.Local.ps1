@@ -2,7 +2,7 @@
 
 $SourceDir = "$env:USERPROFILE\Source\Repos\TonyValenti\msbuild-obfuscar\src\";
 
-$VisualStudio = "C:\Program Files\Microsoft Visual Studio\2022\Preview\"
+$VisualStudio = "C:\Program Files\Microsoft Visual Studio\2022\Professional\"
 $TextTransform = "$VisualStudio\Common7\IDE\TextTransform.exe"
 
 $NUGET_DEV = "C:\__DEV\__NUGET";

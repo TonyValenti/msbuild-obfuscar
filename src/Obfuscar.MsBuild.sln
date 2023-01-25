@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30717.126
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32407.343
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".files", ".files", "{5A49A884-1C02-43DD-80CA-E7C1E53905E5}"
 	ProjectSection(SolutionItems) = preProject
@@ -42,7 +42,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "__SHARED", "__SHARED", "{18EFF705-AC28-477E-A64E-49733BFCB7F1}"
 	ProjectSection(SolutionItems) = preProject
 		__SHARED\AssemblyInfo.Internal.Attributes.cs = __SHARED\AssemblyInfo.Internal.Attributes.cs
+		__SHARED\AssemblyInfo.Internal.g.cs = __SHARED\AssemblyInfo.Internal.g.cs
 		__SHARED\AssemblyInfo.Internal.tt = __SHARED\AssemblyInfo.Internal.tt
+		__SHARED\AssemblyInfo.Nuget.g.targets = __SHARED\AssemblyInfo.Nuget.g.targets
 		__SHARED\AssemblyInfo.Nuget.tt = __SHARED\AssemblyInfo.Nuget.tt
 		__SHARED\Shared.targets = __SHARED\Shared.targets
 	EndProjectSection
