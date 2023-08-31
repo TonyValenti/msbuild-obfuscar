@@ -6,7 +6,7 @@
 		<Description>Build targets interface for Obfuscar</Description>
 		<PackageTags>Obfuscar MSBuild Targets</PackageTags>
 		<Authors>Enner Pérez, Tony Valenti</Authors>
-		<Version>2.2.37.1</Version>
+		<Version>2.2.38.0</Version>
 
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/ennerperez/msbuild-obfuscar</PackageProjectUrl>
@@ -17,7 +17,7 @@
 		<PackageIconUrl />
 
 
-		<PackageReleaseNotes>Includes 'Obfuscar' v2.2.37 in a solution-level NuGet package</PackageReleaseNotes>
+		<PackageReleaseNotes>Includes 'Obfuscar' v2.2.38 in a solution-level NuGet package</PackageReleaseNotes>
 
 	</PropertyGroup>
 
@@ -30,7 +30,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Obfuscar" Version="2.2.37">
+		<PackageReference Include="Obfuscar" Version="2.2.38">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
