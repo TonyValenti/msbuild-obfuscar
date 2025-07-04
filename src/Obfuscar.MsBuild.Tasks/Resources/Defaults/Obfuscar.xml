@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Obfuscator>
+  
+  <!-- https://docs.obfuscar.com/getting-started/configuration.html -->
+  
+  <Var name="InPath"                    value="{{InPath}}" />
+  <Var name="OutPath"                   value="{{OutPath}}" />
+                                        
+  <Var name="KeepPublicApi"             value="true"  />
+  <!--
+  Turning this on will break assemblies that have [InternalsVisibleTo]
+  -->
+  <Var name="HidePrivateApi"            value="true" />
+  
+  <Var name="HideStrings"               value="true"  />
+  <Var name="RenameProperties"          value="true"  />
+  <Var name="RenameEvents"              value="true"  />
+  <Var name="ReuseNames"                value="true"  />
+  
+  <!--
+  Disabled because EFCore does not like when fields are renamed
+  https://github.com/dotnet/efcore/issues/25720
+  -->
+  <Var name="RenameFields"              value="false" />
+  
+
+  <Var name="UseUnicodeNames"           value="true"  />
+  <Var name="RegenerateDebugInfo"       value="true"  />
+  
+
+  
+
+  <Module file="{{Module}}" />
+
+  <Var name="ConfigurationName"         value="{{ConfigurationName}}" />
+
+  <Var name="ProjectName"               value="{{ProjectName}}" />
+  <Var name="ProjectDir"                value="{{ProjectDir}}" />
+                                        
+  <Var name="SolutionName"              value="{{SolutionName}}" />
+  <Var name="SolutionDir"               value="{{SolutionDir}}" />
+                                        
+  <Var name="TargetDir"                 value="{{TargetDir}}" />
+  <Var name="TargetFileName"            value="{{TargetFileName}}" />
+
+</Obfuscator>

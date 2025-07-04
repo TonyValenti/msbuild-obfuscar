@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+    <RootNamespace>Obfuscar.MsBuild.Tests.ClickOnce</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Obfuscar.MsBuild(Tests)\Obfuscar.MsBuild(Tests).csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <RootNamespace>Obfuscar.MsBuild.Example</RootNamespace>
+        <AssemblyName>Obfuscar.MsBuild.Example</AssemblyName>
+        <LangVersion>default</LangVersion>
+        <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Obfuscar.MsBuild" Version="2.2.49">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Include="..\Program.cs">
+        <Link>Program.cs</Link>
+      </Compile>
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,69 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="..\__SHARED\Shared.targets" />
+
+	<PropertyGroup>
+		<PackageId>Obfuscar.MsBuild</PackageId>
+		<Description>Build targets interface for Obfuscar</Description>
+		<PackageTags>Obfuscar MSBuild Targets</PackageTags>
+		<Authors>Enner Pérez, Tony Valenti</Authors>
+		<Version>2.2.38.1</Version>
+
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/ennerperez/msbuild-obfuscar</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/ennerperez/msbuild-obfuscar</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+
+		<PackageIcon>.editoricon.png</PackageIcon>
+		<PackageIconUrl />
+
+
+		<PackageReleaseNotes>Includes 'Obfuscar' v2.2.49 in a solution-level NuGet package</PackageReleaseNotes>
+
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<TargetFramework>net472</TargetFramework>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<IsPackable>true</IsPackable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Obfuscar" Version="2.2.49">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\.editoricon.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<FilesToPack1 Include="$(TargetDir)\*" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="@(FilesToPack1)" Visible="False" Pack="True" PackagePath="tools" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<FilesToPack2 Include="build\*" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="@(FilesToPack2)" Visible="False" Pack="True" PackagePath="build" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+		<ProjectReference Include="..\Obfuscar.MsBuild.Tasks\Obfuscar.MsBuild.Tasks.csproj">
+			<PrivateAssets>all</PrivateAssets>
+		</ProjectReference>
+	</ItemGroup>
+
+</Project>
