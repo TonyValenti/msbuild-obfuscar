@@ -7,7 +7,7 @@
 		<Description>Build targets interface for Obfuscar</Description>
 		<PackageTags>Obfuscar MSBuild Targets</PackageTags>
 		<Authors>Enner Pérez, Tony Valenti</Authors>
-		<Version>2.2.51.0</Version>
+		<Version>2.2.52.0</Version>
 
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/ennerperez/msbuild-obfuscar</PackageProjectUrl>
@@ -16,22 +16,25 @@
 
 		<PackageIcon>.editoricon.png</PackageIcon>
 		<PackageIconUrl />
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 
-
-		<PackageReleaseNotes>Includes 'Obfuscar' v2.2.51 in a solution-level NuGet package</PackageReleaseNotes>
-
+		<PackageReleaseNotes>Includes 'Obfuscar' v2.2.50 in a solution-level NuGet package</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<PropertyGroup>
 		<TargetFramework>net472</TargetFramework>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-
-		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 		<IsPackable>true</IsPackable>
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+		<CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+		<NoWarn>$(NoWarn);NU5128</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Obfuscar" Version="2.2.50" />
+		<PackageReference Include="Obfuscar" Version="2.2.50">
+			<PrivateAssets>none</PrivateAssets>
+			<IncludeAssets>all</IncludeAssets>
+		</PackageReference>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -39,29 +42,25 @@
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
 		</None>
+		<None Include="README.md" Pack="True" PackagePath="\" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<FilesToPack1 Include="$(TargetDir)\*" />
+		<None Include="build\*.targets" Visible="True" Pack="True" PackagePath="build\Obfuscar.MsBuild.targets" />
+		<None Include="build\*.props" Visible="True" Pack="True" PackagePath="build\Obfuscar.MsBuild.props" />
 	</ItemGroup>
-
-	<ItemGroup>
-		<None Include="@(FilesToPack1)" Visible="False" Pack="True" PackagePath="tools" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<FilesToPack2 Include="build\*" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Include="@(FilesToPack2)" Visible="False" Pack="True" PackagePath="build" />
-	</ItemGroup>
-
 
 	<ItemGroup>
 		<ProjectReference Include="..\Obfuscar.MsBuild.Tasks\Obfuscar.MsBuild.Tasks.csproj">
 			<PrivateAssets>all</PrivateAssets>
 		</ProjectReference>
 	</ItemGroup>
+
+	<Target Name="PackObfuscarMsBuildTasks" BeforeTargets="_GetPackageFiles">
+		<ItemGroup>
+			<None Include="$(TargetDir)Obfuscar.MsBuild.Tasks.dll" Pack="True" PackagePath="tools" Visible="False" />
+			<None Include="$(TargetDir)Obfuscar.MsBuild.Tasks.pdb" Pack="True" PackagePath="tools" Visible="False" Condition="Exists('$(TargetDir)Obfuscar.MsBuild.Tasks.pdb')" />
+		</ItemGroup>
+	</Target>
 
 </Project>

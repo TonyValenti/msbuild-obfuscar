@@ -58,9 +58,8 @@ namespace Obfuscar.MsBuild.Tasks {
 
 
             var ConfigTemplate = Resources.Defaults.ResourcePackage.Obfuscar;
-            if (System.IO.File.Exists(Obfuscator_ConfigTemplate)) {
-                ConfigTemplate = System.IO.File.ReadAllText(Obfuscator_ConfigTemplate)
-                ;
+            if (System.IO.File.Exists(Args.Obfuscator_ConfigTemplate)) {
+                ConfigTemplate = System.IO.File.ReadAllText(Args.Obfuscator_ConfigTemplate);
             } else {
                 Log.LogMessage(MessageImportance.High, $@"Path to {ObfuscateArgNames.Default.Obfuscator_ConfigTemplate} does not exist.  Using a default template.");
             }

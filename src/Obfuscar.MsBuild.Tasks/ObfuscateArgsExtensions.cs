@@ -129,7 +129,7 @@ namespace Obfuscar.MsBuild.Tasks {
 
             var ret = new ObfuscateArgs() {
                 Obfuscator_Path = This.Obfuscator_Path,
-                Obfuscator_ConfigTemplate = This.Obfuscator_ConfigTemplate,
+                Obfuscator_ConfigTemplate = Obfuscator_ConfigTemplate,
                 Obfuscator_ConfigTemplate_ProjectReferences_Append = This.Obfuscator_ConfigTemplate_ProjectReferences_Append,
 
                 Obfuscator_Targets = Obfuscator_Targets.SplitComma().ToHashSet(StringComparer.InvariantCultureIgnoreCase),

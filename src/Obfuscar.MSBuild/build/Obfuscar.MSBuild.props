@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <ObfuscarEnabled Condition="'$(ObfuscarEnabled)' == ''">true</ObfuscarEnabled>
+    <Obfuscator_ConfigTemplate_ProjectReferences_Append Condition="'$(Obfuscator_ConfigTemplate_ProjectReferences_Append)' == ''">true</Obfuscator_ConfigTemplate_ProjectReferences_Append>
+    <Obfuscator_Diagnostics_TempFolder_Delete Condition="'$(Obfuscator_Diagnostics_TempFolder_Delete)' == ''">true</Obfuscator_Diagnostics_TempFolder_Delete>
+  </PropertyGroup>
+
+</Project>

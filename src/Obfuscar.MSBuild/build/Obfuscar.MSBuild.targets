@@ -1,62 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-***********************************************************************************************
-MSBuild.Obfuscator.targets
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
-          created a backup copy.  Incorrect changes to this file will make it
-          impossible to load or build your projects from the command-line or the IDE.
+  <PropertyGroup>
+    <ObfuscarEnabled Condition="'$(ObfuscarEnabled)' == ''">true</ObfuscarEnabled>
+    <Obfuscator_ConfigTemplate_ProjectReferences_Append Condition="'$(Obfuscator_ConfigTemplate_ProjectReferences_Append)' == ''">true</Obfuscator_ConfigTemplate_ProjectReferences_Append>
+    <Obfuscator_Diagnostics_TempFolder_Delete Condition="'$(Obfuscator_Diagnostics_TempFolder_Delete)' == ''">true</Obfuscator_Diagnostics_TempFolder_Delete>
+  </PropertyGroup>
 
-***********************************************************************************************
--->
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ObfuscarMsBuildTasksAssembly Condition="'$(ObfuscarMsBuildTasksAssembly)' == '' AND Exists('$(MSBuildThisFileDirectory)..\tools\Obfuscar.MsBuild.Tasks.dll')">$(MSBuildThisFileDirectory)..\tools\Obfuscar.MsBuild.Tasks.dll</ObfuscarMsBuildTasksAssembly>
+    <ObfuscarMsBuildTasksAssembly Condition="'$(ObfuscarMsBuildTasksAssembly)' == '' AND Exists('$(MSBuildThisFileDirectory)..\bin\$(Configuration)\net472\Obfuscar.MsBuild.Tasks.dll')">$(MSBuildThisFileDirectory)..\bin\$(Configuration)\net472\Obfuscar.MsBuild.Tasks.dll</ObfuscarMsBuildTasksAssembly>
+    <ObfuscarMsBuildTasksAssembly Condition="'$(ObfuscarMsBuildTasksAssembly)' == '' AND Exists('$(MSBuildThisFileDirectory)..\bin\Release\net472\Obfuscar.MsBuild.Tasks.dll')">$(MSBuildThisFileDirectory)..\bin\Release\net472\Obfuscar.MsBuild.Tasks.dll</ObfuscarMsBuildTasksAssembly>
+    <ObfuscarMsBuildTasksAssembly Condition="'$(ObfuscarMsBuildTasksAssembly)' == '' AND Exists('$(MSBuildThisFileDirectory)..\bin\Debug\net472\Obfuscar.MsBuild.Tasks.dll')">$(MSBuildThisFileDirectory)..\bin\Debug\net472\Obfuscar.MsBuild.Tasks.dll</ObfuscarMsBuildTasksAssembly>
+  </PropertyGroup>
 
+  <UsingTask TaskName="Obfuscate" AssemblyFile="$(ObfuscarMsBuildTasksAssembly)" Condition="'$(ObfuscarMsBuildTasksAssembly)' != ''" />
+
+  <Target Name="ResolveObfuscarConsole">
     <PropertyGroup>
-
-        <!-- ObfuscatorToolsPath -->
-        <ObfuscatorToolsPath Condition="'$(NuGetProjectStyle)' == 'PackageReference'">$(MSBuildThisFileDirectory)..\..\..\obfuscar\2.2.33\tools</ObfuscatorToolsPath>
-        <ObfuscatorToolsPath Condition="'$(NuGetProjectStyle)' == 'PackageReference' And !Exists('$(ObfuscatorToolsPath)')">$(NuGetPackageRoot)obfuscar\2.2.33\tools</ObfuscatorToolsPath>
-
-        <ObfuscatorToolsPath Condition="'$(NuGetProjectStyle)' != 'PackageReference'">$(MSBuildThisFileDirectory)..\..\obfuscar.2.2.33\tools</ObfuscatorToolsPath>
-        <ObfuscatorToolsPath Condition="'$(NuGetProjectStyle)' != 'PackageReference' And !Exists('$(ObfuscatorToolsPath)')">$(SolutionDir)packages\obfuscar.2.2.33\tools</ObfuscatorToolsPath>
-
+      <_NuGetPackageRootWithSlash Condition="'$(NuGetPackageRoot)' != ''">$([MSBuild]::EnsureTrailingSlash($(NuGetPackageRoot)))</_NuGetPackageRootWithSlash>
+      <Obfuscator_Path Condition="'$(Obfuscator_Path)' == '' AND '$(Obfuscar)' != '' AND Exists('$(Obfuscar)')">$(Obfuscar)</Obfuscator_Path>
     </PropertyGroup>
 
+    <ItemGroup Condition="'$(Obfuscator_Path)' == '' OR !Exists('$(Obfuscator_Path)')">
+      <_ObfuscarConsoleExe Include="$(_NuGetPackageRootWithSlash)obfuscar\**\Obfuscar.Console.exe" Condition="'$(_NuGetPackageRootWithSlash)' != ''" />
+      <_ObfuscarConsoleExe Include="$(MSBuildThisFileDirectory)..\..\obfuscar\**\Obfuscar.Console.exe" />
+      <_ObfuscarConsoleExe Include="$(SolutionDir)packages\Obfuscar.*\tools\Obfuscar.Console.exe" Condition="'$(SolutionDir)' != '' AND '$(SolutionDir)' != '*Undefined*'" />
+    </ItemGroup>
+
     <PropertyGroup>
-
-        <!-- Obfuscator command -->
-        <ObfuscatorExePath Condition=" '$(ObfuscatorExePath)' == '' ">$(ObfuscatorToolsPath)\Obfuscar.Console.exe</ObfuscatorExePath>
-
-        <ObfuscatorCommand Condition=" '$(OS)' == 'Windows_NT'">"$(ObfuscatorExePath)"</ObfuscatorCommand>
-        <ObfuscatorCommand Condition=" '$(OS)' != 'Windows_NT' ">mono "$(ObfuscatorExePath)"</ObfuscatorCommand>
-
-        <!-- PaddedSolutionDir -->
-        <PaddedSolutionDir Condition=" '$(OS)' == 'Windows_NT'">"$(SolutionDir) "</PaddedSolutionDir>
-        <PaddedSolutionDir Condition=" '$(OS)' != 'Windows_NT' ">"$(SolutionDir)"</PaddedSolutionDir>
-
-        <!-- ProjectFileName -->
-        <ProjectFileName Condition=" '$(OS)' == 'Windows_NT'">$([System.IO.Path]::Combine($(ProjectDir), "$(ProjectName).xml"))</ProjectFileName>
-        <ProjectFileName Condition=" '$(OS)' == 'Windows_NT' AND !Exists('$(ProjectFileName)')">$([System.IO.Path]::Combine($(ProjectDir), "Obfuscar.xml"))</ProjectFileName>
-
-        <ProjectFileName Condition=" '$(OS)' != 'Windows_NT' ">$(ProjectDir)$(ProjectName).xml</ProjectFileName>
-        <ProjectFileName Condition=" '$(OS)' != 'Windows_NT' AND !Exists('$(ProjectFileName)')">$(ProjectDir)Obfuscar.xml</ProjectFileName>
-
-        <!-- Commands -->
-        <ObfuscateCommand>$(ObfuscatorCommand) "$(ProjectFileName)"</ObfuscateCommand>
+      <Obfuscator_Path Condition="('$(Obfuscator_Path)' == '' OR !Exists('$(Obfuscator_Path)')) AND '@(_ObfuscarConsoleExe)' != ''">@(_ObfuscarConsoleExe->Last())</Obfuscator_Path>
     </PropertyGroup>
+  </Target>
 
-    <Target Name="CheckPrerequisites">
-        <!-- Raise an error if we're unable to locate Obfuscator.cli.exe  -->
-        <Error Condition="'$(DownloadObfuscatorExe)' != 'true' AND !Exists('$(ObfuscatorExePath)')" Text="Unable to locate '$(ObfuscatorExePath)'" />
-    </Target>
+  <Target Name="ObfuscarObfuscate"
+          AfterTargets="Build"
+          DependsOnTargets="ResolveObfuscarConsole"
+          Condition="'$(ObfuscarEnabled)' == 'true' AND '$(DesignTimeBuild)' != 'true' AND '$(BuildingProject)' != 'false' AND '$(TargetFileName)' != '' AND '$(ObfuscarMsBuildTasksAssembly)' != ''">
+    <Error Condition="'$(Obfuscator_Path)' == '' OR !Exists('$(Obfuscator_Path)')"
+           Text="Unable to locate Obfuscar.Console.exe. Restore packages so the Obfuscar dependency is available, or set Obfuscator_Path / Obfuscar." />
 
-    <Target Name="Obfuscator" AfterTargets="AfterBuild" DependsOnTargets="CheckPrerequisites" Condition="Exists('$(ProjectFileName)') and '$(ConfigurationName)' == 'Release'">
-        <MakeDir Directories="$(TargetDir)obfuscated" />
-        <Exec WorkingDirectory="$(ProjectDir)" Command="$(ObfuscateCommand)" />
-        <ItemGroup>
-            <FilesToMove Include="$(TargetDir)obfuscated\*.*" />
-        </ItemGroup>
-        <Move SourceFiles="@(FilesToMove)" DestinationFolder="$(TargetDir)" OverwriteReadOnlyFiles="true" Condition=" '$(OS)' == 'Windows_NT'" />
-        <RemoveDir Directories="$(TargetDir)obfuscated" Condition=" '$(OS)' == 'Windows_NT'" />
-    </Target>
+    <Obfuscate
+      Obfuscator_Path="$(Obfuscator_Path)"
+      Obfuscator_ConfigTemplate="$(Obfuscator_ConfigTemplate)"
+      Obfuscator_ConfigTemplate_ProjectReferences_Append="$(Obfuscator_ConfigTemplate_ProjectReferences_Append)"
+      Obfuscator_Targets="$(Obfuscator_Targets)"
+      ConfigurationName="$(Configuration)"
+      SolutionDir="$(SolutionDir)"
+      SolutionFileName="$(SolutionFileName)"
+      SolutionName="$(SolutionName)"
+      ProjectDir="$(ProjectDir)"
+      ProjectFileName="$(MSBuildProjectFile)"
+      ProjectName="$(ProjectName)"
+      ProjectReferences="@(ReferencePath)"
+      TargetDir="$(TargetDir)"
+      TargetFileName="$(TargetFileName)"
+      TargetName="$(TargetName)"
+      Diagnostics_TempFolder_Delete="$(Obfuscator_Diagnostics_TempFolder_Delete)" />
+  </Target>
+
 </Project>
